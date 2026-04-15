@@ -1,0 +1,983 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Branco's Design System — Reference</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=DM+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="tokens.css" />
+  <link rel="stylesheet" href="components.css" />
+
+  <style>
+    /* ── Showcase-only styles ── */
+    body { min-height: 100vh; }
+
+    .showcase-layout {
+      display: flex;
+      min-height: 100vh;
+    }
+
+    .sidebar-nav {
+      width: 220px;
+      min-width: 220px;
+      background: var(--surface-subtle);
+      border-right: 1px solid var(--border-subtle);
+      padding: var(--space-6) 0;
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      overflow-y: auto;
+      display: none;
+    }
+
+    @media (min-width: 1024px) { .sidebar-nav { display: flex; flex-direction: column; } }
+
+    .sidebar-nav a {
+      display: block;
+      padding: var(--space-2) var(--space-6);
+      font-size: var(--text-sm);
+      color: var(--text-secondary);
+      text-decoration: none;
+      border-left: 2px solid transparent;
+      transition: var(--transition-colors);
+    }
+    .sidebar-nav a:hover {
+      color: var(--text-primary);
+      background: var(--surface-muted);
+    }
+    .sidebar-nav a.active {
+      color: var(--color-brand-600);
+      border-left-color: var(--color-brand-500);
+      font-weight: var(--weight-semibold);
+      background: var(--color-brand-50);
+    }
+    .sidebar-brand {
+      padding: var(--space-4) var(--space-6) var(--space-6);
+      font-family: var(--font-display);
+      font-weight: var(--weight-bold);
+      font-size: var(--text-md);
+      color: var(--text-primary);
+      border-bottom: 1px solid var(--border-subtle);
+      margin-bottom: var(--space-4);
+    }
+    .sidebar-section-label {
+      padding: var(--space-4) var(--space-6) var(--space-1);
+      font-size: 10px;
+      font-weight: var(--weight-semibold);
+      color: var(--text-tertiary);
+      letter-spacing: var(--tracking-widest);
+      text-transform: uppercase;
+    }
+
+    .main-content {
+      flex: 1;
+      overflow-y: auto;
+      min-width: 0;
+    }
+
+    .top-bar {
+      height: var(--header-height-desktop);
+      background: var(--surface-page);
+      border-bottom: 1px solid var(--border-subtle);
+      display: flex;
+      align-items: center;
+      padding: 0 var(--space-6);
+      gap: var(--space-4);
+      position: sticky;
+      top: 0;
+      z-index: 30;
+      backdrop-filter: blur(12px);
+    }
+
+    .top-bar-title {
+      font-family: var(--font-display);
+      font-weight: var(--weight-bold);
+      font-size: var(--text-base);
+      color: var(--text-primary);
+    }
+
+    .top-bar-version {
+      font-size: var(--text-xs);
+      background: var(--color-brand-50);
+      color: var(--color-brand-700);
+      padding: 2px var(--space-2);
+      border-radius: var(--radius-full);
+      font-weight: var(--weight-semibold);
+    }
+
+    .content-area { padding: var(--space-8) var(--space-6); max-width: 900px; }
+
+    /* Sections */
+    .ds-section {
+      margin-bottom: var(--space-16);
+      scroll-margin-top: 80px;
+    }
+
+    .ds-section-title {
+      font-family: var(--font-display);
+      font-size: var(--text-2xl);
+      font-weight: var(--weight-bold);
+      color: var(--text-primary);
+      margin-bottom: var(--space-2);
+      padding-bottom: var(--space-4);
+      border-bottom: 2px solid var(--border-subtle);
+    }
+
+    .ds-section-desc {
+      font-size: var(--text-sm);
+      color: var(--text-secondary);
+      margin-bottom: var(--space-8);
+      max-width: 600px;
+    }
+
+    .ds-subsection { margin-bottom: var(--space-8); }
+
+    .ds-subsection-title {
+      font-size: var(--text-sm);
+      font-weight: var(--weight-semibold);
+      color: var(--text-tertiary);
+      letter-spacing: var(--tracking-widest);
+      text-transform: uppercase;
+      margin-bottom: var(--space-4);
+    }
+
+    /* Swatch groups */
+    .swatch-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-3);
+    }
+
+    .swatch {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-2);
+      min-width: 80px;
+    }
+
+    .swatch__color {
+      width: 80px;
+      height: 56px;
+      border-radius: var(--radius-lg);
+      border: 1px solid rgba(0,0,0,0.06);
+    }
+
+    .swatch__name {
+      font-size: 10px;
+      font-weight: var(--weight-medium);
+      color: var(--text-secondary);
+    }
+
+    .swatch__value {
+      font-family: var(--font-mono);
+      font-size: 9px;
+      color: var(--text-tertiary);
+    }
+
+    /* Row samples */
+    .ds-row {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: var(--space-3);
+      margin-bottom: var(--space-4);
+    }
+
+    /* Type specimens */
+    .type-specimen {
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      margin-bottom: var(--space-2);
+    }
+
+    .type-specimen__meta {
+      padding: var(--space-3) var(--space-5);
+      background: var(--surface-subtle);
+      border-top: 1px solid var(--border-subtle);
+      display: flex;
+      gap: var(--space-4);
+      align-items: center;
+    }
+
+    .type-specimen__sample {
+      padding: var(--space-6) var(--space-6);
+    }
+
+    .type-meta-tag {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      background: var(--surface-muted);
+      padding: 2px var(--space-2);
+      border-radius: var(--radius-sm);
+      color: var(--text-secondary);
+    }
+
+    /* Component showcase box */
+    .ds-showcase-box {
+      background: var(--surface-subtle);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-xl);
+      padding: var(--space-8) var(--space-6);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: var(--space-4);
+      margin-bottom: var(--space-4);
+    }
+
+    .ds-showcase-box--left {
+      justify-content: flex-start;
+      align-items: flex-start;
+    }
+
+    /* Theme toggle */
+    .theme-toggle {
+      margin-left: auto;
+      display: flex;
+      align-items: center;
+      gap: var(--space-3);
+      font-size: var(--text-sm);
+      color: var(--text-secondary);
+    }
+
+    /* Spacing demo */
+    .spacing-item {
+      display: flex;
+      align-items: center;
+      gap: var(--space-4);
+      margin-bottom: var(--space-3);
+    }
+    .spacing-bar {
+      height: 28px;
+      background: var(--color-brand-500);
+      border-radius: var(--radius-sm);
+      opacity: 0.8;
+    }
+    .spacing-label {
+      font-family: var(--font-mono);
+      font-size: var(--text-xs);
+      color: var(--text-secondary);
+      white-space: nowrap;
+    }
+
+    /* Radius demo */
+    .radius-grid { display: flex; flex-wrap: wrap; gap: var(--space-4); }
+    .radius-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: var(--space-2);
+    }
+    .radius-box {
+      width: 72px;
+      height: 72px;
+      background: var(--color-brand-100);
+      border: 2px solid var(--color-brand-300);
+    }
+
+    /* Shadow demo */
+    .shadow-grid { display: flex; flex-wrap: wrap; gap: var(--space-6); }
+    .shadow-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: var(--space-3);
+    }
+    .shadow-box {
+      width: 88px;
+      height: 88px;
+      background: var(--surface-page);
+      border-radius: var(--radius-lg);
+    }
+
+    /* Mobile preview wrapper */
+    .mobile-preview {
+      background: var(--color-neutral-900);
+      border-radius: 32px;
+      padding: 16px;
+      width: 280px;
+      box-shadow: var(--shadow-2xl);
+      display: inline-block;
+    }
+
+    .mobile-screen {
+      background: var(--surface-page);
+      border-radius: 20px;
+      overflow: hidden;
+      min-height: 500px;
+    }
+
+    .mobile-statusbar {
+      background: var(--surface-subtle);
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 var(--space-4);
+    }
+
+    /* Keyboard accessibility */
+    :focus-visible {
+      outline: 2px solid var(--color-brand-500);
+      outline-offset: 2px;
+    }
+  </style>
+</head>
+
+<body>
+<div class="showcase-layout">
+
+  <!-- Sidebar Nav (Desktop) -->
+  <nav class="sidebar-nav" aria-label="Design System sections">
+    <div class="sidebar-brand">🎨 Branco's DS</div>
+
+    <span class="sidebar-section-label">Foundation</span>
+    <a href="#colors">Colors</a>
+    <a href="#typography">Typography</a>
+    <a href="#spacing">Spacing</a>
+    <a href="#radius">Border Radius</a>
+    <a href="#shadows">Shadows</a>
+
+    <span class="sidebar-section-label">Components</span>
+    <a href="#buttons">Buttons</a>
+    <a href="#inputs">Inputs</a>
+    <a href="#cards">Cards</a>
+    <a href="#badges">Badges</a>
+    <a href="#alerts">Alerts</a>
+    <a href="#tabs">Tabs</a>
+    <a href="#table">Table</a>
+    <a href="#avatars">Avatars</a>
+    <a href="#modals">Modals</a>
+    <a href="#skeletons">Skeletons</a>
+
+    <span class="sidebar-section-label">Navigation</span>
+    <a href="#mobile-nav">Mobile Nav</a>
+    <a href="#sidebar-comp">Sidebar</a>
+    <a href="#index-bar">Index Bar</a>
+  </nav>
+
+  <!-- Main -->
+  <div class="main-content">
+
+    <!-- Top bar -->
+    <header class="top-bar">
+      <span class="top-bar-title">Branco's Design System</span>
+      <span class="top-bar-version">v1.0.0</span>
+      <nav class="ds-breadcrumb" style="font-size: var(--text-xs);">
+        <li class="ds-breadcrumb__item">
+          <a class="ds-breadcrumb__link" href="#">Home</a>
+          <span class="ds-breadcrumb__sep">›</span>
+        </li>
+        <li class="ds-breadcrumb__item">
+          <span class="ds-breadcrumb__current">Reference</span>
+        </li>
+      </nav>
+      <div class="theme-toggle">
+        <span>Dark</span>
+        <label class="ds-toggle" title="Toggle dark mode">
+          <input type="checkbox" id="themeToggle" />
+          <span class="ds-toggle__track"></span>
+          <span class="ds-toggle__thumb"></span>
+        </label>
+      </div>
+    </header>
+
+    <div class="content-area">
+
+      <!-- ─── HERO ─────────────────────────────────── -->
+      <div style="margin-bottom: var(--space-16); padding: var(--space-10) 0;">
+        <div class="ds-badge ds-badge--brand ds-badge--dot" style="margin-bottom: var(--space-4);">Mobile & Desktop</div>
+        <h1 class="ds-display-md" style="margin-bottom: var(--space-4);">Branco's Design System</h1>
+        <p class="ds-body-lg" style="color: var(--text-secondary); max-width: 540px; margin-bottom: var(--space-6);">
+          Tokens, components, and patterns for building consistent interfaces — mobile-first, accessible, and ready for your next project.
+        </p>
+        <div class="ds-row">
+          <a href="#colors" class="ds-btn ds-btn--primary ds-btn--md">Explore Tokens</a>
+          <a href="#buttons" class="ds-btn ds-btn--secondary ds-btn--md">View Components</a>
+        </div>
+      </div>
+
+      <!-- ─── COLORS ─────────────────────────────── -->
+      <section id="colors" class="ds-section">
+        <h2 class="ds-section-title">Colors</h2>
+        <p class="ds-section-desc">All colors are defined as CSS custom properties. Use semantic tokens whenever possible.</p>
+
+        <div class="ds-subsection">
+          <p class="ds-subsection-title">Brand Scale</p>
+          <div class="swatch-grid">
+            <div class="swatch"><div class="swatch__color" style="background: var(--color-brand-50)"></div><span class="swatch__name">brand-50</span></div>
+            <div class="swatch"><div class="swatch__color" style="background: var(--color-brand-100)"></div><span class="swatch__name">brand-100</span></div>
+            <div class="swatch"><div class="swatch__color" style="background: var(--color-brand-200)"></div><span class="swatch__name">brand-200</span></div>
+            <div class="swatch"><div class="swatch__color" style="background: var(--color-brand-300)"></div><span class="swatch__name">brand-300</span></div>
+            <div class="swatch"><div class="swatch__color" style="background: var(--color-brand-400)"></div><span class="swatch__name">brand-400</span></div>
+            <div class="swatch"><div class="swatch__color" style="background: var(--color-brand-500)"></div><span class="swatch__name">brand-500</span><span class="swatch__value">#4a6cf7</span></div>
+            <div class="swatch"><div class="swatch__color" style="background: var(--color-brand-600)"></div><span class="swatch__name">brand-600</span></div>
+            <div class="swatch"><div class="swatch__color" style="background: var(--color-brand-700)"></div><span class="swatch__name">brand-700</span></div>
+            <div class="swatch"><div class="swatch__color" style="background: var(--color-brand-800)"></div><span class="swatch__name">brand-800</span></div>
+            <div class="swatch"><div class="swatch__color" style="background: var(--color-brand-900)"></div><span class="swatch__name">brand-900</span></div>
+          </div>
+        </div>
+
+        <div class="ds-subsection">
+          <p class="ds-subsection-title">Neutral Scale</p>
+          <div class="swatch-grid">
+            <div class="swatch"><div class="swatch__color" style="background: var(--color-neutral-0); border: 1px solid #e4e7f0;"></div><span class="swatch__name">neutral-0</span></div>
+            <div class="swatch"><div class="swatch__color" style="background: var(--color-neutral-50)"></div><span class="swatch__name">neutral-50</span></div>
+            <div class="swatch"><div class="swatch__color" style="background: var(--color-neutral-100)"></div><span class="swatch__name">neutral-100</span></div>
+            <div class="swatch"><div class="swatch__color" style="background: var(--color-neutral-200)"></div><span class="swatch__name">neutral-200</span></div>
+            <div class="swatch"><div class="swatch__color" style="background: var(--color-neutral-400)"></div><span class="swatch__name">neutral-400</span></div>
+            <div class="swatch"><div class="swatch__color" style="background: var(--color-neutral-600)"></div><span class="swatch__name">neutral-600</span></div>
+            <div class="swatch"><div class="swatch__color" style="background: var(--color-neutral-800)"></div><span class="swatch__name">neutral-800</span></div>
+            <div class="swatch"><div class="swatch__color" style="background: var(--color-neutral-900)"></div><span class="swatch__name">neutral-900</span></div>
+            <div class="swatch"><div class="swatch__color" style="background: var(--color-neutral-950)"></div><span class="swatch__name">neutral-950</span></div>
+          </div>
+        </div>
+
+        <div class="ds-subsection">
+          <p class="ds-subsection-title">Semantic / Feedback</p>
+          <div class="swatch-grid">
+            <div class="swatch"><div class="swatch__color" style="background: var(--color-success-base)"></div><span class="swatch__name">success</span><span class="swatch__value">#22c55e</span></div>
+            <div class="swatch"><div class="swatch__color" style="background: var(--color-warning-base)"></div><span class="swatch__name">warning</span><span class="swatch__value">#f59e0b</span></div>
+            <div class="swatch"><div class="swatch__color" style="background: var(--color-error-base)"></div><span class="swatch__name">error</span><span class="swatch__value">#ef4444</span></div>
+            <div class="swatch"><div class="swatch__color" style="background: var(--color-info-base)"></div><span class="swatch__name">info</span><span class="swatch__value">#3b82f6</span></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ─── TYPOGRAPHY ──────────────────────────── -->
+      <section id="typography" class="ds-section">
+        <h2 class="ds-section-title">Typography</h2>
+        <p class="ds-section-desc">Uses <strong>Sora</strong> for display/headings and <strong>DM Sans</strong> for body text. All sizes use rem for accessibility.</p>
+
+        <div class="type-specimen">
+          <div class="type-specimen__sample"><span class="ds-display-xl">Display XL — Aa</span></div>
+          <div class="type-specimen__meta">
+            <span class="type-meta-tag">.ds-display-xl</span>
+            <span class="type-meta-tag">60px / Sora 800</span>
+          </div>
+        </div>
+
+        <div class="type-specimen">
+          <div class="type-specimen__sample"><span class="ds-display-md">Display MD — Aa</span></div>
+          <div class="type-specimen__meta">
+            <span class="type-meta-tag">.ds-display-md</span>
+            <span class="type-meta-tag">36px / Sora 700</span>
+          </div>
+        </div>
+
+        <div class="type-specimen">
+          <div class="type-specimen__sample"><span class="ds-heading-xl">Heading XL — Section Title</span></div>
+          <div class="type-specimen__meta">
+            <span class="type-meta-tag">.ds-heading-xl</span>
+            <span class="type-meta-tag">30px / Sora 700</span>
+          </div>
+        </div>
+
+        <div class="type-specimen">
+          <div class="type-specimen__sample"><span class="ds-heading-md">Heading MD — Card Title</span></div>
+          <div class="type-specimen__meta">
+            <span class="type-meta-tag">.ds-heading-md</span>
+            <span class="type-meta-tag">20px / Sora 600</span>
+          </div>
+        </div>
+
+        <div class="type-specimen">
+          <div class="type-specimen__sample"><span class="ds-body-lg">Body LG — O Branco's Design System foi criado para facilitar o desenvolvimento de interfaces consistentes.</span></div>
+          <div class="type-specimen__meta">
+            <span class="type-meta-tag">.ds-body-lg</span>
+            <span class="type-meta-tag">18px / DM Sans 400</span>
+          </div>
+        </div>
+
+        <div class="type-specimen">
+          <div class="type-specimen__sample"><span class="ds-body-sm">Body SM — Texto auxiliar, legendas e descrições secundárias que precisam de menor destaque visual.</span></div>
+          <div class="type-specimen__meta">
+            <span class="type-meta-tag">.ds-body-sm</span>
+            <span class="type-meta-tag">14px / DM Sans 400</span>
+          </div>
+        </div>
+
+        <div class="type-specimen">
+          <div class="type-specimen__sample"><span class="ds-label-lg">Label — STATUS ATIVO</span></div>
+          <div class="type-specimen__meta">
+            <span class="type-meta-tag">.ds-label-lg</span>
+            <span class="type-meta-tag">12px / DM Sans 600 uppercase</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- ─── SPACING ────────────────────────────── -->
+      <section id="spacing" class="ds-section">
+        <h2 class="ds-section-title">Spacing</h2>
+        <p class="ds-section-desc">Base unit: 4px (0.25rem). Scale follows multiples of the base unit.</p>
+        <div>
+          <div class="spacing-item"><div class="spacing-bar" style="width: 4px;"></div><span class="spacing-label">--space-1 · 4px</span></div>
+          <div class="spacing-item"><div class="spacing-bar" style="width: 8px;"></div><span class="spacing-label">--space-2 · 8px</span></div>
+          <div class="spacing-item"><div class="spacing-bar" style="width: 12px;"></div><span class="spacing-label">--space-3 · 12px</span></div>
+          <div class="spacing-item"><div class="spacing-bar" style="width: 16px;"></div><span class="spacing-label">--space-4 · 16px</span></div>
+          <div class="spacing-item"><div class="spacing-bar" style="width: 24px;"></div><span class="spacing-label">--space-6 · 24px</span></div>
+          <div class="spacing-item"><div class="spacing-bar" style="width: 32px;"></div><span class="spacing-label">--space-8 · 32px</span></div>
+          <div class="spacing-item"><div class="spacing-bar" style="width: 40px;"></div><span class="spacing-label">--space-10 · 40px</span></div>
+          <div class="spacing-item"><div class="spacing-bar" style="width: 48px;"></div><span class="spacing-label">--space-12 · 48px</span></div>
+          <div class="spacing-item"><div class="spacing-bar" style="width: 64px;"></div><span class="spacing-label">--space-16 · 64px</span></div>
+          <div class="spacing-item"><div class="spacing-bar" style="width: 80px;"></div><span class="spacing-label">--space-20 · 80px</span></div>
+          <div class="spacing-item"><div class="spacing-bar" style="width: 96px;"></div><span class="spacing-label">--space-24 · 96px</span></div>
+        </div>
+      </section>
+
+      <!-- ─── BORDER RADIUS ───────────────────────── -->
+      <section id="radius" class="ds-section">
+        <h2 class="ds-section-title">Border Radius</h2>
+        <div class="radius-grid">
+          <div class="radius-item"><div class="radius-box" style="border-radius: var(--radius-none);"></div><span class="ds-body-xs">none</span></div>
+          <div class="radius-item"><div class="radius-box" style="border-radius: var(--radius-xs);"></div><span class="ds-body-xs">xs · 2px</span></div>
+          <div class="radius-item"><div class="radius-box" style="border-radius: var(--radius-sm);"></div><span class="ds-body-xs">sm · 4px</span></div>
+          <div class="radius-item"><div class="radius-box" style="border-radius: var(--radius-md);"></div><span class="ds-body-xs">md · 8px</span></div>
+          <div class="radius-item"><div class="radius-box" style="border-radius: var(--radius-lg);"></div><span class="ds-body-xs">lg · 12px</span></div>
+          <div class="radius-item"><div class="radius-box" style="border-radius: var(--radius-xl);"></div><span class="ds-body-xs">xl · 16px</span></div>
+          <div class="radius-item"><div class="radius-box" style="border-radius: var(--radius-2xl);"></div><span class="ds-body-xs">2xl · 24px</span></div>
+          <div class="radius-item"><div class="radius-box" style="border-radius: var(--radius-3xl);"></div><span class="ds-body-xs">3xl · 32px</span></div>
+          <div class="radius-item"><div class="radius-box" style="border-radius: var(--radius-full);"></div><span class="ds-body-xs">full</span></div>
+        </div>
+      </section>
+
+      <!-- ─── SHADOWS ─────────────────────────────── -->
+      <section id="shadows" class="ds-section">
+        <h2 class="ds-section-title">Shadows</h2>
+        <div class="shadow-grid">
+          <div class="shadow-item"><div class="shadow-box" style="box-shadow: var(--shadow-xs);"></div><span class="ds-body-xs">xs</span></div>
+          <div class="shadow-item"><div class="shadow-box" style="box-shadow: var(--shadow-sm);"></div><span class="ds-body-xs">sm</span></div>
+          <div class="shadow-item"><div class="shadow-box" style="box-shadow: var(--shadow-md);"></div><span class="ds-body-xs">md</span></div>
+          <div class="shadow-item"><div class="shadow-box" style="box-shadow: var(--shadow-lg);"></div><span class="ds-body-xs">lg</span></div>
+          <div class="shadow-item"><div class="shadow-box" style="box-shadow: var(--shadow-xl);"></div><span class="ds-body-xs">xl</span></div>
+          <div class="shadow-item"><div class="shadow-box" style="box-shadow: var(--shadow-2xl);"></div><span class="ds-body-xs">2xl</span></div>
+          <div class="shadow-item"><div class="shadow-box" style="box-shadow: var(--shadow-brand);"></div><span class="ds-body-xs">brand</span></div>
+        </div>
+      </section>
+
+      <!-- ─── BUTTONS ──────────────────────────────── -->
+      <section id="buttons" class="ds-section">
+        <h2 class="ds-section-title">Buttons</h2>
+        <p class="ds-section-desc">Combine variante <code class="ds-code">--variant</code> com tamanho <code class="ds-code">--size</code>. Suporta estados hover, focus, active e disabled.</p>
+
+        <div class="ds-subsection">
+          <p class="ds-subsection-title">Variants</p>
+          <div class="ds-showcase-box">
+            <button class="ds-btn ds-btn--primary ds-btn--md">Primary</button>
+            <button class="ds-btn ds-btn--secondary ds-btn--md">Secondary</button>
+            <button class="ds-btn ds-btn--ghost ds-btn--md">Ghost</button>
+            <button class="ds-btn ds-btn--neutral ds-btn--md">Neutral</button>
+            <button class="ds-btn ds-btn--destructive ds-btn--md">Destructive</button>
+          </div>
+        </div>
+
+        <div class="ds-subsection">
+          <p class="ds-subsection-title">Sizes</p>
+          <div class="ds-showcase-box">
+            <button class="ds-btn ds-btn--primary ds-btn--xs">Extra Small</button>
+            <button class="ds-btn ds-btn--primary ds-btn--sm">Small</button>
+            <button class="ds-btn ds-btn--primary ds-btn--md">Medium</button>
+            <button class="ds-btn ds-btn--primary ds-btn--lg">Large</button>
+            <button class="ds-btn ds-btn--primary ds-btn--xl">Extra Large</button>
+          </div>
+        </div>
+
+        <div class="ds-subsection">
+          <p class="ds-subsection-title">States</p>
+          <div class="ds-showcase-box">
+            <button class="ds-btn ds-btn--primary ds-btn--md" disabled>Disabled</button>
+            <button class="ds-btn ds-btn--primary ds-btn--md ds-btn--loading">Loading</button>
+            <button class="ds-btn ds-btn--primary ds-btn--md ds-btn--full" style="max-width: 300px;">Full Width</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- ─── INPUTS ──────────────────────────────── -->
+      <section id="inputs" class="ds-section">
+        <h2 class="ds-section-title">Inputs & Form Fields</h2>
+
+        <div class="ds-showcase-box ds-showcase-box--left" style="flex-direction: column; gap: var(--space-5); align-items: stretch; max-width: 480px;">
+          <div class="ds-field">
+            <label class="ds-label ds-label--required">Nome completo</label>
+            <input class="ds-input" type="text" placeholder="Digite seu nome" />
+          </div>
+
+          <div class="ds-field">
+            <label class="ds-label">E-mail</label>
+            <div class="ds-input-wrapper">
+              <svg class="ds-input-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+              <input class="ds-input" type="email" placeholder="seu@email.com" />
+            </div>
+            <span class="ds-hint">Usaremos para enviar a confirmação.</span>
+          </div>
+
+          <div class="ds-field">
+            <label class="ds-label">Status</label>
+            <select class="ds-select">
+              <option>Ativo</option>
+              <option>Inativo</option>
+              <option>Pendente</option>
+            </select>
+          </div>
+
+          <div class="ds-field">
+            <label class="ds-label">Campo com erro</label>
+            <input class="ds-input ds-input--error" type="text" value="valor inválido" />
+            <span class="ds-hint ds-hint--error">Este campo é obrigatório.</span>
+          </div>
+
+          <div class="ds-field">
+            <label class="ds-label">Campo com sucesso</label>
+            <input class="ds-input ds-input--success" type="text" value="valornome@email.com" />
+            <span class="ds-hint ds-hint--success">E-mail verificado com sucesso!</span>
+          </div>
+
+          <div class="ds-field">
+            <label class="ds-label">Mensagem</label>
+            <textarea class="ds-textarea" rows="4" placeholder="Descreva sua dúvida..."></textarea>
+          </div>
+
+          <!-- Checkbox & Radio -->
+          <div style="display: flex; flex-direction: column; gap: var(--space-3);">
+            <label class="ds-check-group">
+              <input type="checkbox" checked /> Aceito os termos de uso
+            </label>
+            <label class="ds-check-group">
+              <input type="checkbox" /> Quero receber novidades por e-mail
+            </label>
+          </div>
+
+          <div style="display: flex; flex-direction: column; gap: var(--space-3);">
+            <label class="ds-radio-group"><input type="radio" name="plan" checked /> Plano Free</label>
+            <label class="ds-radio-group"><input type="radio" name="plan" /> Plano Pro</label>
+            <label class="ds-radio-group"><input type="radio" name="plan" /> Plano Enterprise</label>
+          </div>
+
+          <!-- Toggle -->
+          <div class="ds-flex ds-items-center ds-gap-3">
+            <label class="ds-toggle">
+              <input type="checkbox" checked />
+              <span class="ds-toggle__track"></span>
+              <span class="ds-toggle__thumb"></span>
+            </label>
+            <span class="ds-body-sm">Notificações ativadas</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- ─── CARDS ────────────────────────────────── -->
+      <section id="cards" class="ds-section">
+        <h2 class="ds-section-title">Cards</h2>
+
+        <div class="ds-grid" style="grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));">
+          <div class="ds-card">
+            <div class="ds-card__header">
+              <div class="ds-avatar ds-avatar--md">JB</div>
+              <div>
+                <p class="ds-heading-sm">Card Padrão</p>
+                <p class="ds-body-xs" style="color: var(--text-secondary);">Subtítulo do card</p>
+              </div>
+              <div style="margin-left: auto;">
+                <span class="ds-badge ds-badge--success ds-badge--dot">Ativo</span>
+              </div>
+            </div>
+            <div class="ds-card__body">
+              <p class="ds-body-sm" style="color: var(--text-secondary);">Este é um card com header, body e footer. Utilize para apresentar conteúdo estruturado.</p>
+            </div>
+            <div class="ds-card__footer">
+              <button class="ds-btn ds-btn--ghost ds-btn--sm">Cancelar</button>
+              <button class="ds-btn ds-btn--primary ds-btn--sm" style="margin-left: auto;">Confirmar</button>
+            </div>
+          </div>
+
+          <div class="ds-card ds-card--interactive" style="cursor: pointer;">
+            <div class="ds-card__body">
+              <span class="ds-badge ds-badge--brand" style="margin-bottom: var(--space-3);">Interativo</span>
+              <p class="ds-heading-sm" style="margin-bottom: var(--space-2);">Card Hover</p>
+              <p class="ds-body-sm" style="color: var(--text-secondary);">Passe o mouse para ver o efeito de elevação e animação.</p>
+            </div>
+          </div>
+
+          <div class="ds-card ds-card--subtle">
+            <div class="ds-card__body">
+              <p class="ds-label-lg" style="color: var(--text-tertiary); margin-bottom: var(--space-3);">Receita mensal</p>
+              <p class="ds-display-md" style="margin-bottom: var(--space-2);">R$ 12.840</p>
+              <span class="ds-badge ds-badge--success ds-badge--dot">+8,4% vs mês anterior</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ─── BADGES ────────────────────────────────── -->
+      <section id="badges" class="ds-section">
+        <h2 class="ds-section-title">Badges</h2>
+        <div class="ds-showcase-box">
+          <span class="ds-badge ds-badge--brand">Brand</span>
+          <span class="ds-badge ds-badge--neutral">Neutral</span>
+          <span class="ds-badge ds-badge--success">Success</span>
+          <span class="ds-badge ds-badge--warning">Warning</span>
+          <span class="ds-badge ds-badge--error">Error</span>
+          <span class="ds-badge ds-badge--info">Info</span>
+        </div>
+        <div class="ds-showcase-box">
+          <span class="ds-badge ds-badge--brand ds-badge--dot">Online</span>
+          <span class="ds-badge ds-badge--success ds-badge--dot">Aprovado</span>
+          <span class="ds-badge ds-badge--warning ds-badge--dot">Pendente</span>
+          <span class="ds-badge ds-badge--error ds-badge--dot">Rejeitado</span>
+        </div>
+      </section>
+
+      <!-- ─── ALERTS ────────────────────────────────── -->
+      <section id="alerts" class="ds-section">
+        <h2 class="ds-section-title">Alerts</h2>
+        <div style="display: flex; flex-direction: column; gap: var(--space-3); max-width: 560px;">
+          <div class="ds-alert ds-alert--info"><span>ℹ️</span><span>Uma nova versão está disponível. Atualize para aproveitar os recursos mais recentes.</span></div>
+          <div class="ds-alert ds-alert--success"><span>✅</span><span>Sua conta foi verificada com sucesso. Bem-vindo ao sistema!</span></div>
+          <div class="ds-alert ds-alert--warning"><span>⚠️</span><span>Seu plano expira em 3 dias. Renove para continuar acessando todos os recursos.</span></div>
+          <div class="ds-alert ds-alert--error"><span>❌</span><span>Não foi possível salvar as alterações. Verifique os campos obrigatórios.</span></div>
+        </div>
+      </section>
+
+      <!-- ─── TABS ──────────────────────────────────── -->
+      <section id="tabs" class="ds-section">
+        <h2 class="ds-section-title">Tabs</h2>
+        <div class="ds-tabs" style="max-width: 560px;">
+          <div class="ds-tabs__list" role="tablist">
+            <button class="ds-tabs__tab ds-tabs__tab--active" role="tab">Visão Geral</button>
+            <button class="ds-tabs__tab" role="tab">Analytics</button>
+            <button class="ds-tabs__tab" role="tab">Configurações</button>
+            <button class="ds-tabs__tab" role="tab">Integrações</button>
+          </div>
+          <div class="ds-tabs__content">
+            <div class="ds-tabs__panel ds-tabs__panel--active">
+              <p class="ds-body-md" style="color: var(--text-secondary);">Conteúdo da aba Visão Geral. Adicione aqui o painel principal com os dados mais importantes.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ─── TABLE ─────────────────────────────────── -->
+      <section id="table" class="ds-section">
+        <h2 class="ds-section-title">Table</h2>
+        <div class="ds-table-wrapper">
+          <table class="ds-table">
+            <thead>
+              <tr>
+                <th>Nome</th>
+                <th>Status</th>
+                <th>Plano</th>
+                <th>Criado em</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><div class="ds-flex ds-items-center ds-gap-3"><div class="ds-avatar ds-avatar--sm">AN</div> Ana Lima</div></td>
+                <td><span class="ds-badge ds-badge--success ds-badge--dot">Ativo</span></td>
+                <td>Pro</td>
+                <td style="color: var(--text-secondary);">12 Jan 2025</td>
+                <td><button class="ds-btn ds-btn--ghost ds-btn--sm">···</button></td>
+              </tr>
+              <tr>
+                <td><div class="ds-flex ds-items-center ds-gap-3"><div class="ds-avatar ds-avatar--sm" style="background: var(--color-warning-light); color: var(--color-warning-dark);">CB</div> Carlos B.</div></td>
+                <td><span class="ds-badge ds-badge--warning ds-badge--dot">Pendente</span></td>
+                <td>Free</td>
+                <td style="color: var(--text-secondary);">03 Mar 2025</td>
+                <td><button class="ds-btn ds-btn--ghost ds-btn--sm">···</button></td>
+              </tr>
+              <tr>
+                <td><div class="ds-flex ds-items-center ds-gap-3"><div class="ds-avatar ds-avatar--sm" style="background: var(--color-error-light); color: var(--color-error-dark);">MO</div> Maria O.</div></td>
+                <td><span class="ds-badge ds-badge--error ds-badge--dot">Inativo</span></td>
+                <td>Enterprise</td>
+                <td style="color: var(--text-secondary);">28 Fev 2025</td>
+                <td><button class="ds-btn ds-btn--ghost ds-btn--sm">···</button></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- ─── AVATARS ────────────────────────────────── -->
+      <section id="avatars" class="ds-section">
+        <h2 class="ds-section-title">Avatars</h2>
+        <div class="ds-showcase-box">
+          <div class="ds-avatar ds-avatar--xs">XS</div>
+          <div class="ds-avatar ds-avatar--sm">SM</div>
+          <div class="ds-avatar ds-avatar--md">MD</div>
+          <div class="ds-avatar ds-avatar--lg">LG</div>
+          <div class="ds-avatar ds-avatar--xl">XL</div>
+          <div class="ds-avatar ds-avatar--2xl">2X</div>
+        </div>
+        <p class="ds-subsection-title" style="margin-top: var(--space-6);">Avatar Group</p>
+        <div class="ds-showcase-box">
+          <div class="ds-avatar-group">
+            <div class="ds-avatar ds-avatar--md" style="background: var(--color-brand-100); color: var(--color-brand-700);">AN</div>
+            <div class="ds-avatar ds-avatar--md" style="background: var(--color-success-light); color: var(--color-success-dark);">CB</div>
+            <div class="ds-avatar ds-avatar--md" style="background: var(--color-warning-light); color: var(--color-warning-dark);">MO</div>
+            <div class="ds-avatar ds-avatar--md" style="background: var(--color-error-light); color: var(--color-error-dark);">+4</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ─── MODALS ────────────────────────────────── -->
+      <section id="modals" class="ds-section">
+        <h2 class="ds-section-title">Modals</h2>
+        <div class="ds-showcase-box">
+          <button class="ds-btn ds-btn--primary ds-btn--md" onclick="document.getElementById('demoModal').style.display='flex'">Abrir Modal</button>
+        </div>
+
+        <!-- Demo Modal -->
+        <div id="demoModal" class="ds-backdrop" style="display: none;" onclick="if(event.target===this)this.style.display='none'">
+          <div class="ds-modal">
+            <div class="ds-modal__header">
+              <h2 class="ds-heading-md">Confirmar ação</h2>
+              <button class="ds-btn ds-btn--ghost ds-btn--icon ds-btn--sm" onclick="document.getElementById('demoModal').style.display='none'" aria-label="Fechar">✕</button>
+            </div>
+            <div class="ds-modal__body">
+              <p class="ds-body-md" style="color: var(--text-secondary);">Esta ação não pode ser desfeita. Deseja realmente continuar?</p>
+            </div>
+            <div class="ds-modal__footer">
+              <button class="ds-btn ds-btn--neutral ds-btn--md" onclick="document.getElementById('demoModal').style.display='none'">Cancelar</button>
+              <button class="ds-btn ds-btn--destructive ds-btn--md" onclick="document.getElementById('demoModal').style.display='none'">Excluir</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ─── SKELETONS ──────────────────────────────── -->
+      <section id="skeletons" class="ds-section">
+        <h2 class="ds-section-title">Skeleton Loading</h2>
+        <div style="max-width: 400px; display: flex; flex-direction: column; gap: var(--space-4);">
+          <div class="ds-flex ds-items-center ds-gap-3">
+            <div class="ds-skeleton ds-skeleton--avatar"></div>
+            <div style="flex: 1; display: flex; flex-direction: column; gap: var(--space-2);">
+              <div class="ds-skeleton ds-skeleton--text" style="width: 60%;"></div>
+              <div class="ds-skeleton ds-skeleton--text" style="width: 40%;"></div>
+            </div>
+          </div>
+          <div class="ds-skeleton ds-skeleton--card" style="border-radius: var(--radius-xl);"></div>
+          <div class="ds-skeleton ds-skeleton--text"></div>
+          <div class="ds-skeleton ds-skeleton--text" style="width: 80%;"></div>
+          <div class="ds-skeleton ds-skeleton--text" style="width: 60%;"></div>
+        </div>
+      </section>
+
+      <!-- ─── PROGRESS ────────────────────────────────── -->
+      <section id="progress" class="ds-section">
+        <h2 class="ds-section-title">Progress Bar</h2>
+        <div style="max-width: 480px; display: flex; flex-direction: column; gap: var(--space-5);">
+          <div class="ds-progress">
+            <div class="ds-flex ds-flex-between"><span class="ds-body-sm">Upload concluído</span><span class="ds-body-sm" style="color: var(--text-secondary);">75%</span></div>
+            <div class="ds-progress__track"><div class="ds-progress__fill" style="width: 75%;"></div></div>
+          </div>
+          <div class="ds-progress">
+            <div class="ds-flex ds-flex-between"><span class="ds-body-sm">Meta mensal</span><span class="ds-body-sm" style="color: var(--color-success-dark);">90%</span></div>
+            <div class="ds-progress__track"><div class="ds-progress__fill ds-progress__fill--success" style="width: 90%;"></div></div>
+          </div>
+          <div class="ds-progress">
+            <div class="ds-flex ds-flex-between"><span class="ds-body-sm">Processando...</span><span class="ds-body-sm" style="color: var(--text-secondary);">45%</span></div>
+            <div class="ds-progress__track"><div class="ds-progress__fill ds-progress__fill--striped" style="width: 45%;"></div></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ─── MOBILE NAV ──────────────────────────────── -->
+      <section id="mobile-nav" class="ds-section">
+        <h2 class="ds-section-title">Mobile Navigation</h2>
+        <p class="ds-section-desc">Bottom navigation para mobile. O Index Bar auxilia em listas longas com scroll alfabético.</p>
+
+        <div style="display: flex; gap: var(--space-8); flex-wrap: wrap; align-items: flex-start;">
+          <div>
+            <p class="ds-subsection-title">Bottom Nav</p>
+            <div style="width: 320px; background: var(--surface-page); border: 1px solid var(--border-subtle); border-radius: var(--radius-xl); overflow: hidden; box-shadow: var(--shadow-md);">
+              <div style="height: 80px; background: var(--surface-subtle); display: flex; align-items: center; justify-content: center;">
+                <span class="ds-body-sm" style="color: var(--text-tertiary);">Conteúdo da página</span>
+              </div>
+              <div class="ds-bottom-nav" style="position: relative; bottom: auto;">
+                <button class="ds-bottom-nav__item ds-bottom-nav__item--active">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+                  Início
+                </button>
+                <button class="ds-bottom-nav__item">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                  Buscar
+                </button>
+                <button class="ds-bottom-nav__item">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                  Perfil
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <p class="ds-subsection-title">Index Bar</p>
+            <div style="display: flex; background: var(--surface-subtle); border: 1px solid var(--border-subtle); border-radius: var(--radius-xl); padding: var(--space-4); gap: var(--space-4); height: 200px;">
+              <div style="flex: 1;">
+                <p class="ds-body-sm" style="color: var(--text-secondary); margin-bottom: var(--space-2);">A</p>
+                <p class="ds-body-sm">Ana Lima</p>
+                <p class="ds-body-sm">Arthur Souza</p>
+                <p class="ds-body-sm" style="color: var(--text-secondary); margin-top: var(--space-3); margin-bottom: var(--space-2);">B</p>
+                <p class="ds-body-sm">Bruno Martins</p>
+              </div>
+              <div class="ds-index-bar">
+                <span class="ds-index-bar__item ds-index-bar__item--active">A</span>
+                <span class="ds-index-bar__item">B</span>
+                <span class="ds-index-bar__item">C</span>
+                <span class="ds-index-bar__item">D</span>
+                <span class="ds-index-bar__item">E</span>
+                <span class="ds-index-bar__item">F</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Footer -->
+      <footer style="padding: var(--space-12) 0 var(--space-20); border-top: 1px solid var(--border-subtle); margin-top: var(--space-16);">
+        <div class="ds-flex ds-flex-between" style="flex-wrap: wrap; gap: var(--space-4);">
+          <div>
+            <p class="ds-heading-sm" style="margin-bottom: var(--space-1);">Branco's Design System</p>
+            <p class="ds-body-sm" style="color: var(--text-tertiary);">v1.0.0 · Mobile & Desktop</p>
+          </div>
+          <div style="display: flex; gap: var(--space-3);">
+            <span class="ds-badge ds-badge--neutral">tokens.css</span>
+            <span class="ds-badge ds-badge--neutral">components.css</span>
+          </div>
+        </div>
+      </footer>
+
+    </div><!-- /content-area -->
+  </div><!-- /main-content -->
+</div><!-- /showcase-layout -->
+
+<script>
+  // Theme toggle
+  const toggle = document.getElementById('themeToggle');
+  toggle.addEventListener('change', () => {
+    document.documentElement.setAttribute('data-theme', toggle.checked ? 'dark' : 'light');
+  });
+
+  // Active sidebar links
+  const sections = document.querySelectorAll('.ds-section');
+  const navLinks = document.querySelectorAll('.sidebar-nav a');
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        navLinks.forEach(l => l.classList.remove('active'));
+        const id = entry.target.id;
+        const link = document.querySelector(`.sidebar-nav a[href="#${id}"]`);
+        if (link) link.classList.add('active');
+      }
+    });
+  }, { rootMargin: '-30% 0px -60% 0px' });
+
+  sections.forEach(s => observer.observe(s));
+</script>
+</body>
+</html>
